@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Customize your start page</title>
+    <link rel="stylesheet" href="css/customize.css" type="text/css" />
+    <script src="javascripts/jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="javascripts/custom.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="top_right_text">
+          <a href="/login">Login</a> | <a href="/register">Register</a>
+    </div>   
+    <div id="login">
+      <h1>Click to add links to your start page:</h1>
+      <div id="sectionBreak">
+			<%@toBeDeletedLinksHash.each do |k, v|
+  			   if(@suggestedLinks.has_key?(k))
+				@suggestedLinks.delete(k)
+			   end
+			end
+			@suggestedLinks.each do |k, v|%>	   		 
+		   	<form action="addURL" method="POST">
+			   <fieldset>
+			   <label><%=@suggestedLinks[k][0]%></label>
+			   <input type="hidden" name="hiddenURL" id="hiddenURL" value="<%=k%>"/>
+			   <input type="hidden" name="siteName" value="<%=@suggestedLinks[k][0]%>"/>
+				<input type="hidden" name="siteImage" value="<%=@suggestedLinks[k][1]%>"/>
+			   <button type="submit" name="addSuggestedURL" value="Add" id="addSuggestedURL">Add</button>
+			   </fieldset>			
+		      </form>
+		   <%end%>
+	</div>
+        <h1>Click to remove pages:</h1>
+		<%if(@toBeDeletedLinksHash.size == 0)%>
+          <%#Place Holder form to aid jQuery slide toggle%>
+          <div id="sectionBreak">
+            <form id="frmAction" action="" method=""><p>You have not added any links</p></form>
+          </div>
+        <%else%>
+          <div id="sectionBreak">
+		   <%@toBeDeletedLinksHash.each do |k, v|%>	   		 
+		   	<form id="frmAction" action="removeURL" method="POST">
+			   <fieldset>
+			   <label><%=@toBeDeletedLinksHash[k]%></label>
+			   <input type="hidden" name="hiddenURL" id="hiddenURL" value="<%=k%>"/>
+			   <input type="hidden" name="siteName" value="<%=@toBeDeletedLinksHash[k]%>"/>
+			   <button type="submit" name="removeURL" value="Remove" id="removeURL">Remove</button>
+			   </fieldset>			
+		      </form>
+		   <%end%>
+		</div>
+        <%end%>
+        <h1>Click to add your own links.</h1>
+        <div id="sectionBreak">
+    <form id="frmAction" action="addURL" method="POST" enctype="multipart/form-data" />			
+			<p>Enter you site name and URL</p>
+			<label>Site Name</label>
+				<input type="text" name="siteName" value=""/>
+ 			</p><p>
+      			<label>URL</label>
+				<input type="text" size="25" name="myURL" id="myURL" value="http://"/>
+			</p><p>
+			<label>Upload Image</label>
+				<input type="file" name="file" id="file">
+			</p><p>
+			<em>(please crop to be 156x156)</em>
+			<div class="submit">
+				<button type="submit" name="add" value="Add" id="addURL">Add</button>
+			</div>
+			</p></p></p>
+		   </form>
+</div>
+      <h1>Click to customize your page!</h1>
+      <div id="sectionBreak">
+      <form id="frmAction"  method="post" action="update"> 
+    	<label for="background">Background color: (Ex: #ffffff)</label>
+      <input type="text" name="background" id="background" title="Enter the background color" value="default"/>
+      <label for="layout">Background image: </label>
+      <input type="text" name="layout" id="layout" title="Choose a layout" />
+       	<div class="submit">
+          <button name="settings" value="Update" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+	    <p class="back"><a href="/">Go back to your start page</a></p>
+	</div>			
+
+</body>
+</html>
+
+
+
